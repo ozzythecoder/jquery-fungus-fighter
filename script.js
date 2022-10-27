@@ -30,6 +30,8 @@ function onReady() {
 
 
 function handleAttack() {
+
+	// getting attack and statistics by button class name
 	let thisAtk = $(this).attr('class').split(' ')[1]
 	let thisDmg = attacks[thisAtk].dmg
 	let thisCost = attacks[thisAtk].cost
@@ -38,23 +40,38 @@ function handleAttack() {
 
 	// check if AP remaining is enough to pay cost
 	// if not, fail attack
+	if (thisCost > heroAP) {
+		render();
+		return false;
+	}
 
-	// reduce fungus HP by dmg amount, minimum 0
-	// fungusHP -= thisAtk.dmg;
-	// if (fungusHP < 0) { fungusHP = 0 };
+	// reduce fungus HP by dmg amount
+	fungusHP -= thisDmg;
+
+	// if fungus HP is reduced to 0, set it to 0, render the DOM,
+	// and move to win state
+	if (fungusHP <= 0) {
+		fungusHP = 0;
+		render();
+		gameWin();
+	};
 
 	// // reduce hero AP by cost amount, minimum 0
-	// heroAP -= thisAtk.cost;
-	// if (heroAP < 0) { heroAP = 0};
+	heroAP -= thisCost;
 
-	// console.log('fungus HP is now', fungusHP);
-	// console.log('hero AP is now', heroAP);
+	// if hero AP is reduced to 0, set it to 0, redner the DOM,
+	// and move to failure state
+	if (heroAP < 0) {
+		heroAP = 0;
+		render();
+		gameOver();
+	};
 
-	// render();
+	render();
 }
 
 function render() {
-	// render AP value
+	// render AP & HP values to the DOM
 	$('.ap-text').html(heroAP + ' AP')
 	$('.hp-text').html(fungusHP + ' HP')
 }

@@ -49,6 +49,7 @@ function handleAttack() {
 	// if not, fail attack
 	if (thisCost > heroAP) {
 		console.log('attack failed');
+		$(this).attr('disabled', true)
 		handleGameState();
 		render();
 		return false;
@@ -80,6 +81,7 @@ function handleGameState() {
 	// and move to failure state	
 	if (cheapest > heroAP) {
 		if (heroAP <= 0) { heroAP = 0 };
+		$('.attack-btn').attr('disabled', true)
 		render();
 		gameOver();
 		return false;

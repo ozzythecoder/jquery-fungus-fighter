@@ -7,24 +7,14 @@ $(document).ready(onReady);
 
 let fungusHP = 100;
 let heroAP = 100;
-const attacks = [ {
-		name: 'arcane-sceptre',
-		dmg: 14,
-		cost: 12
-	}, {
-		name: 'entangle',
-		dmg: 9,
-		cost: 23
-	}, {
-		name: 'dragon-blade',
-		dmg: 47,
-		cost: 38
-	}, {
-		name: 'star-fire',
-		dmg: 25,
-		cost: 33
-	}
-]
+
+
+const attacks = {
+	'arcane-sceptre': { dmg: 14, cost: 12 },
+	'entangle': { dmg: 9, cost: 23 },
+	'dragon-blade': { dmg: 47, cost: 38 },
+	'star-fire': { dmg: 25, cost: 33 }
+}
 
 function onReady() {
     
@@ -40,27 +30,27 @@ function onReady() {
 
 
 function handleAttack() {
-	let thisAtk;
-	// loop over attacks
-	for (let atk of attacks) {
-		// identify what attack is being called
-		if ( $(this).hasClass(atk.name) ) {
-			thisAtk = atk;
-		}
-	}
+	let thisAtk = $(this).attr('class').split(' ')[1]
+	let thisDmg = attacks[thisAtk].dmg
+	let thisCost = attacks[thisAtk].cost
+
+	console.log('thisAtk is', thisAtk, thisDmg, thisCost);
+
+	// check if AP remaining is enough to pay cost
+	// if not, fail attack
 
 	// reduce fungus HP by dmg amount, minimum 0
-	fungusHP -= thisAtk.dmg;
-	if (fungusHP < 0) { fungusHP = 0 };
+	// fungusHP -= thisAtk.dmg;
+	// if (fungusHP < 0) { fungusHP = 0 };
 
-	// reduce hero AP by cost amount, minimum 0
-	heroAP -= thisAtk.cost;
-	if (heroAP < 0) { heroAP = 0};
+	// // reduce hero AP by cost amount, minimum 0
+	// heroAP -= thisAtk.cost;
+	// if (heroAP < 0) { heroAP = 0};
 
-	console.log('fungus HP is now', fungusHP);
-	console.log('hero AP is now', heroAP);
+	// console.log('fungus HP is now', fungusHP);
+	// console.log('hero AP is now', heroAP);
 
-	render();
+	// render();
 }
 
 function render() {
